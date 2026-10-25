@@ -1,0 +1,32 @@
+{
+  "name": "closer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server/local.mjs",
+    "start": "NODE_ENV=production node server/local.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "build:web": "node scripts/sync-ui-icons.mjs && node site/scripts/build.mjs",
+    "build:android": "python3 android/build.py",
+    "migrate:sqlite": "node scripts/migrate-sqlite.mjs",
+    "test:android-icons": "python3 tests/run-android-icons.py",
+    "build:android:release": "python3 android/build.py --release",
+    "setup": "node scripts/setup-env.mjs"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "mongodb": "^7.7.0"
+  },
+  "devDependencies": {
+    "lucide-static": "^1.61.0"
+  },
+  "version": "1.1.0",
+  "description": "Private Android phone activity sharing with a minimal web dashboard and MongoDB history.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HarshitKumar9030/closer.git"
+  }
+}

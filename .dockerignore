@@ -1,0 +1,14 @@
+.git
+.github
+**/.git
+**/.env*
+android
+tests
+data
+artifacts
+node_modules
+site/dist
+site/worker
+site/.openai
+*.md
+docs

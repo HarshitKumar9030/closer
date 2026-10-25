@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f8f9fb">
+  <meta name="description" content="Privately shared Android activity, screen time and unlocks.">
+  <title>Closer · Phone activity</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232563eb'/%3E%3Cpath d='M21 11a7 7 0 1 0 0 10' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/ui-icons.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/" aria-label="Closer home"><span class="brand-mark">c</span>closer</a>
+    <div class="header-actions"><button id="export-button" aria-label="Export history" class="button secondary"><span data-icon="download"></span><span class="export-label">Export</span></button><button id="settings-button" class="button secondary"><span data-icon="settings"></span> Sharing</button></div>
+  </header>
+  <main>
+    <div class="page-heading">
+      <div><h1>Phone activity</h1><p id="person-title">Sample Android phone</p></div>
+      <span id="today-date" class="date"></span>
+    </div>
+    <div id="notice" class="notice" role="status">
+      <span class="notice-copy"><span class="sample-tag">Sample data</span><span id="notice-text">Connect your Android to see real activity.</span></span>
+      <button id="connect-top" class="text-button">Connect phone <span aria-hidden="true">→</span></button>
+    </div>
+    <section class="live-card" aria-labelledby="live-title">
+      <div id="current-icon" class="app-icon current-icon"></div>
+      <div class="live-copy">
+        <div class="live-label"><span class="status-dot"></span><span id="live-status">SAMPLE ACTIVITY</span></div>
+        <h2 id="live-title">Instagram</h2>
+        <p id="current-description">Phone unlocked</p>
+      </div>
+      <div class="device-meta"><span id="connection-badge" class="connection-badge">Sample</span><strong id="phone-name">Sample phone</strong><span id="battery-text">82% battery</span></div>
+    </section>
+    <nav class="view-tabs" aria-label="Dashboard views"><button class="active" data-view="overview"><span data-icon="overview"></span> Overview</button><button data-view="history"><span data-icon="history"></span> History</button></nav>
+    <div id="overview-view" class="view-content">
+    <div class="view-heading"><h2 id="period-title">Today’s overview</h2><div class="segmented" aria-label="Date range"><button class="selected" data-range="today" aria-pressed="true">Today</button><button data-range="yesterday" aria-pressed="false">Yesterday</button><button data-range="week" aria-pressed="false">7 days</button><button data-range="month" aria-pressed="false">30 days</button></div></div>
+    <div class="date-navigation"><button id="previous-day" class="icon-button" aria-label="Previous day" data-icon="previous"></button><label class="date-picker"><span data-icon="calendar"></span><input id="selected-date" type="date" aria-label="View a specific date"></label><button id="next-day" class="icon-button" aria-label="Next day" data-icon="next"></button><button id="back-today" class="text-button">Back to today</button></div>
+    <section class="stats-grid" aria-label="Usage summary">
+      <article class="stat"><h3>Screen time</h3><div id="screen-time" class="stat-value">3<span>h</span> 24<span>m</span></div><p><span id="screen-change">18% less</span> <span id="screen-caption">than yesterday</span></p></article>
+      <article class="stat"><h3>Unlocks</h3><div id="unlock-count" class="stat-value">47</div><p><span id="unlock-change">11 fewer</span> <span id="unlock-caption">than yesterday</span></p></article>
+      <article class="stat"><h3>Most used</h3><div class="favorite-app"><div id="top-icon" class="app-icon"></div><div><strong id="top-app">Instagram</strong><span id="top-duration">1h 12m</span></div></div><p><span id="top-share">35%</span> of app time</p></article>
+    </section>
+    <div class="lower-grid">
+      <section class="panel chart-panel" id="rhythm-panel">
+        <div class="panel-heading"><h2 id="rhythm-title">Screen time by hour</h2><span id="chart-total" class="chart-total">3h 24m</span></div>
+        <p id="chart-caption" class="panel-description">When the phone was in use</p>
+        <div class="chart-wrap"><div class="chart-axis" aria-hidden="true"><span id="axis-max">30m</span><span id="axis-mid">15m</span><span>0</span></div><div id="usage-chart" class="usage-chart" role="img" aria-label="Hourly screen time"></div></div>
+        <div id="chart-labels" class="chart-labels"></div>
+        <p id="rhythm-note" class="chart-note">Times follow the phone’s timezone.</p>
+      </section>
+      <section class="panel apps-panel" id="apps-panel">
+        <div class="panel-heading"><h2>App usage</h2><span id="app-count" class="panel-description">5 apps</span></div>
+        <div class="app-tools"><label class="search-field"><span data-icon="search"></span><input id="app-search" type="search" placeholder="Search apps" aria-label="Search apps"></label><select id="app-sort" aria-label="Sort apps"><option value="time">Time</option><option value="name">Name</option></select></div><div id="app-list" class="app-list"></div>
+        <button id="all-apps" class="text-button all-apps" hidden>Show all apps</button>
+      </section>
+    </div>
+    <details id="timeline-panel" class="panel timeline-panel"><summary class="panel-heading"><h2><span data-icon="history"></span> Activity timeline</h2><span class="timeline-summary-label">Observed while sharing <span data-icon="next"></span></span></summary><p class="panel-description">App switches sampled about every 5 seconds. Offline gaps are not filled.</p><div id="timeline-list" class="timeline-list"></div><button id="more-sessions" class="text-button" hidden>Load earlier activity</button></details>
+    </div>
+    <section id="history-view" class="view-content" hidden><div class="history-heading"><div><h2>Usage history</h2><p id="history-meta" class="panel-description">Browse every day you’ve shared.</p></div><span class="retention-badge"><span data-icon="history"></span> No auto-delete</span></div><form id="history-filters" class="history-filters"><label>From<input id="history-from" type="date"></label><label>To<input id="history-to" type="date"></label><button type="submit" class="button primary">Apply dates</button><button id="clear-history-filters" type="button" class="text-button">Reset</button></form><div id="history-app-filter" class="info-note" hidden></div><div class="history-table"><div class="history-table-head"><span>Date</span><span>Screen time</span><span>Unlocks</span><span>Top app</span><span></span></div><div id="history-list"></div></div><div class="history-pagination"><span id="history-count" class="panel-description"></span><button id="more-history" class="button secondary" hidden>Load older days <span data-icon="next"></span></button></div><p id="history-error" class="form-error" role="alert"></p></section>
+    <footer><span class="sync-indicator"></span><span id="sync-text">Sample data · no phone connected</span><span class="footer-privacy"><span data-icon="lock"></span> Private sharing</span></footer>
+  </main>
+  <dialog id="app-dialog"><div class="dialog-head"><div class="app-dialog-heading"><div id="detail-icon" class="app-icon"></div><h2 id="detail-name"></h2></div><button id="close-app-dialog" class="icon-button" aria-label="Close app details" data-icon="close"></button></div><p id="detail-period" class="panel-description"></p><div class="app-detail-total" id="detail-total"></div><p id="detail-share" class="panel-description"></p><h3 class="detail-chart-label">Daily app usage</h3><div id="detail-chart" class="detail-chart"></div><div id="detail-chart-labels" class="detail-chart-labels"></div><button id="detail-history" class="button secondary full"><span data-icon="history"></span> View all history for this app</button></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <dialog id="settings-dialog">
+    <div class="dialog-head"><h2 id="dialog-title">Connect your phone</h2><button id="close-dialog" class="icon-button" aria-label="Close settings" data-icon="close"></button></div>
+    <p class="dialog-intro">Pair your Android, then send your partner a private viewing link.</p>
+    <div id="viewer-info" class="info-note" hidden>You have read-only access. Sharing is controlled from the phone.</div>
+    <div id="hosted-signin" hidden><p>Sign in to manage your phone.</p><a class="button primary full" href="/signin-with-chatgpt?return_to=%2F" target="_top">Sign in with ChatGPT</a></div>
+    <form id="pair-form"><label id="owner-key-label" for="owner-key">Owner key</label><input id="owner-key" type="password" autocomplete="off" placeholder="Your server’s owner key"><label for="device-name">Phone name</label><input id="device-name" maxlength="60" value="My phone" required><button class="button primary full" type="submit" id="generate-code">Create pairing code</button></form>
+    <div id="pairing-result" class="pairing-result" hidden><h3>Enter this code in Closer on Android</h3><code id="pairing-code"></code><p>Server URL</p><div id="server-url" class="server-url"></div><small id="pair-expiry">Expires in 10 minutes. Waiting for your phone…</small></div>
+    <div id="share-controls" class="share-controls" hidden><h3>Private viewing link</h3><p>Anyone with the link can see your shared activity. A new link revokes the previous one.</p><button id="share-link" class="button primary full">Create & copy viewing link</button><button id="pause-sharing" class="button secondary full">Pause sharing</button><button id="delete-phone" class="button danger full">Disconnect & delete data</button></div>
+    <div class="dialog-note"><span data-icon="lock"></span><p>App names and icons, usage totals, unlocks and battery. No messages, screenshots or location.</p></div><p id="form-error" class="form-error" role="alert"></p>
+  </dialog>
+</body>
+</html>

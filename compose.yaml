@@ -1,0 +1,47 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      OWNER_KEY: ${OWNER_KEY:?Set a long random OWNER_KEY in .env}
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      MONGODB_URI: mongodb://closer:${MONGO_PASSWORD:?Set a random hexadecimal MONGO_PASSWORD in .env}@mongo:27017/closer?authSource=closer
+      MONGODB_DATABASE: closer
+    depends_on:
+      mongo:
+        condition: service_healthy
+  mongo:
+    image: mongo:8.0
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?Set MONGO_ROOT_PASSWORD in .env}
+      MONGO_INITDB_DATABASE: closer
+      MONGO_APP_PASSWORD: ${MONGO_PASSWORD:?Set MONGO_PASSWORD in .env}
+    volumes:
+      - mongo-data:/data/db
+      - ./ops/mongo-init.js:/docker-entrypoint-initdb.d/01-app-user.js:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  https:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      CLOSER_DOMAIN: ${CLOSER_DOMAIN:?Set your domain in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+volumes:
+  mongo-data:
+  caddy-data:
+  caddy-config:
